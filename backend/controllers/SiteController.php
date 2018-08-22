@@ -1,16 +1,18 @@
 <?php
 namespace backend\controllers;
 
+use backend\models\Admin;
 use Yii;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use yii\helpers\Json;
+use yii\web\Response;
 
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends BaseController
 {
     /**
      * {@inheritdoc}
@@ -22,11 +24,11 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error', 'index'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -74,16 +76,40 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            $model->password = '';
+        $model = new LoginForm(); // 登录表单数据模型
 
-            return $this->render('login', [
+        // 请求页面
+        if ($this ->request->isGet == true) {
+            return $this->render('login',[
                 'model' => $model,
             ]);
         }
+
+        // ajax提交表单
+        $username = $this->request->post('username');
+        $password = $this->request->post('password');
+        $model->attributes = [
+            'username' => $username,
+            'password' => $password,
+        ];
+
+//        var_dump($model->validate());exit;
+//        if ($model->validate() == false) {
+//            return '未通过验证';
+//        }
+//
+//        $user = $model->getUser();
+//        if ($user->state != Admin::STATE_ENABLE) {
+//            return '账户未启用';
+//        }
+
+        // 登录并验证
+       // if ($model->login()) {
+        $this->successResponseJson('登录成功');
+      //  }else {
+      //      return '2';
+        //}
+
     }
 
     /**
