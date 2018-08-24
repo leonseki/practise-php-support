@@ -5,7 +5,7 @@ use backend\models\Admin;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\LoginForm;
+use backend\models\LoginForm;
 use yii\helpers\Json;
 use yii\web\Response;
 
@@ -14,6 +14,9 @@ use yii\web\Response;
  */
 class SiteController extends BaseController
 {
+    public $enableCsrfValidation = false;
+    //public $defaultAction = 'login';// 修改默认的方法名
+
     /**
      * {@inheritdoc}
      */
@@ -24,11 +27,11 @@ class SiteController extends BaseController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error', 'index'],
+                        'actions' => ['login', 'error'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout','index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -93,22 +96,24 @@ class SiteController extends BaseController
             'password' => $password,
         ];
 
-//        var_dump($model->validate());exit;
-//        if ($model->validate() == false) {
-//            return '未通过验证';
-//        }
-//
-//        $user = $model->getUser();
-//        if ($user->state != Admin::STATE_ENABLE) {
-//            return '账户未启用';
-//        }
+        if ($model->validate() == false) {
+            $this->failResponseJson(current($model->getFirstErrors()));
+        }
+
+        /**
+         * 获取登录用户启用
+         */
+        $user = $model->getUser();
+        if ($user->state != Admin::STATE_ENABLE) {
+            $this->failResponseJson('账户未启用');
+        }
 
         // 登录并验证
-       // if ($model->login()) {
+       if ($model->login()) {
         $this->successResponseJson('登录成功');
-      //  }else {
-      //      return '2';
-        //}
+          }else {
+           $this->failResponseJson('用户名与密码不匹配');
+        }
 
     }
 

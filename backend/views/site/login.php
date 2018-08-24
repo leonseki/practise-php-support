@@ -43,8 +43,8 @@ $this->context->layout = false;
 
     <script type="text/javascript">
         baseConfig = $.extend(baseConfig,{
-            loginUrl:'<?= Url::toRoute(['site/login'])?>'
-            ,indexUrl:'<?= Url::toRoute(['site/index']) ?>'
+            loginUrl: '<?= Url::toRoute(['site/login'])?>'
+            ,indexUrl:'<?= Url::toRoute(['site/index'])?>'
         });
 
         layui.use('form', function() {
