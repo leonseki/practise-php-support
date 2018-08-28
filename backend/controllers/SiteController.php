@@ -31,7 +31,7 @@ class SiteController extends BaseController
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout','index'],
+                        'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -65,8 +65,10 @@ class SiteController extends BaseController
      */
     public function actionIndex()
     {
+       //  $this->layout = false;
         return $this->render('index');
     }
+
 
     /**
      * Login action.
@@ -76,6 +78,7 @@ class SiteController extends BaseController
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
+            //var_dump(Yii::$app->user->isGuest);
             return $this->goHome();
         }
 
@@ -104,6 +107,7 @@ class SiteController extends BaseController
          * 获取登录用户启用
          */
         $user = $model->getUser();
+        //var_dump($model->getUser());
         if ($user->state != Admin::STATE_ENABLE) {
             $this->failResponseJson('账户未启用');
         }
