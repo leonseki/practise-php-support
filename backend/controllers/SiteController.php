@@ -14,9 +14,6 @@ use yii\web\Response;
  */
 class SiteController extends BaseController
 {
-    public $enableCsrfValidation = false;
-    //public $defaultAction = 'login';// 修改默认的方法名
-
     /**
      * {@inheritdoc}
      */

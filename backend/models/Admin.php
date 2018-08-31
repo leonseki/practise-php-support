@@ -35,7 +35,7 @@ class Admin extends BaseModel implements IdentityInterface
      */
     public static function tableName()
     {
-        return '{{admin}}'; // 这里'%'代表表的前缀
+        return '{{%admin}}'; // 这里'%'代表表的前缀
     }
 
     /**
