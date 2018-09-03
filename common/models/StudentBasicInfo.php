@@ -27,7 +27,7 @@ class StudentBasicInfo extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '%student_basic_info';
+        return '{{%student_basic_info}}';
     }
 
     /**

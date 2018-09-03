@@ -10,6 +10,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <table id="datalist-table" lay-filter="datalistTable"></table>
 
 <script type="text/javascript">
+
     baseConfig = $.extend(baseConfig, {
         urlStudentBasicInfoList: '<?= Url::toRoute(['student-basic-info/index', 'is_ajax' => 1]) ?>'
     });
@@ -26,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ,hash : 'page'
             }
             , where: {
-                'name' : getQueryString('name')
+                'id' : getQueryString('id')
             }
             , limit: 15
             , limits: [10, 15, 20, 25]
