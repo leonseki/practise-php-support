@@ -20,8 +20,15 @@ use Yii;
  * @property int $created_at 创建时间
  * @property int $updated_at 更新时间
  */
-class StudentBasicInfo extends \yii\db\ActiveRecord
+class StudentBasicInfo extends BaseModel
 {
+    /**
+     *  性别
+     * @val integer
+     */
+    const SEX_UNKNOWN = 1;    // 未知性别
+    const SEX_MALE    = 2;    // 男性
+    const SEX_FEMALE  = 3;    // 女性
     /**
      * {@inheritdoc}
      */
@@ -62,5 +69,15 @@ class StudentBasicInfo extends \yii\db\ActiveRecord
             'created_at'        => '创建时间',
             'updated_at'        => '更新时间',
         ];
+    }
+
+    public static function getSexLabels($key = null)
+    {
+        $array = [
+            self::SEX_UNKNOWN => '未知',
+            self::SEX_MALE    => '男',
+            self::SEX_FEMALE  => '女',
+        ];
+        return self::getLabels($array, $key);
     }
 }

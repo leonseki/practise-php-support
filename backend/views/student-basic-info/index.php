@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ,{field: 'id', title: 'ID'}
                 ,{field: 'student_id', title: '学号'}
                 ,{field: 'name', title: '姓名'}
-                ,{field: 'sex', title: '性别'}
+                ,{field: 'sex_label', title: '性别'}
                 ,{field: 'age', title: '年龄'}
                 ,{field: 'id_number', title: '身份证号'}
             ]]

@@ -61,6 +61,7 @@ class StudentBasicInfoController extends BaseController
         // 记录总数
         $totalCount = $dataProvider->getTotalCount();
 
+        //var_dump($totalCount);exit;
         // 输出格式化
         if ($totalCount > 0) {
             foreach ($dataProvider->models as $model) {
@@ -70,6 +71,7 @@ class StudentBasicInfoController extends BaseController
                     'student_id'    => $arr['student_id'],
                     'name'          => $arr['name'],
                     'sex'           => $arr['sex'],
+                    'sex_label'     => StudentBasicInfo::getSexLabels($arr['sex']),
                     'age'           => $arr['age'],
                     'id_number'     => $arr['id_number'],
                 ];

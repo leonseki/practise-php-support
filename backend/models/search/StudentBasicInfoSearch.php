@@ -20,8 +20,8 @@ class StudentBasicInfoSearch extends StudentBasicInfo
     public function rules()
     {
         return [
-            [['student_id', 'sex', 'age', 'id_number', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'origin', 'high_school', 'residence', 'census_register'], 'string']
+            [['id','student_id', 'sex', 'age', 'id_number', 'created_at', 'updated_at'], 'integer'],
+            [['name', 'origin', 'high_school', 'residence', 'census_register'], 'safe']
         ];
     }
 
@@ -51,7 +51,7 @@ class StudentBasicInfoSearch extends StudentBasicInfo
             return $dataProvider;
         }
         $query->andFilterWhere([
-            StudentBasicInfo::tableName().'.id'     => $this->id,
+            StudentBasicInfo::tableName().'.id' => $this->id,
         ]);
         return $dataProvider;
     }
