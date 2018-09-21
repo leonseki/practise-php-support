@@ -82,6 +82,14 @@ abstract class BaseController extends Controller
         }
     }
 
+    public function beforeAction($action)
+    {
+        if ($action->id != 'index') {
+            $this->layout = 'layer.php';
+        }
+        return parent::beforeAction($action);
+    }
+
     /**
      * 响应返回JSON数据
      * @param integer $code

@@ -57,7 +57,7 @@ $username = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identi
 
     });
     layui.config({
-        base:'/static/js'
+        base:'/static/js/'
     });
 </script>
 <?php $this->endBody() ?>

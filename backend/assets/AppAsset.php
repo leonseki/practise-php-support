@@ -15,8 +15,8 @@ class AppAsset extends AssetBundle
         'static/layui/css/layui.css',
     ];
     public $js = [
-        'static/layui/layui.js',
         'static/js/site.js',
+        'static/layui/layui.js',
     ];
     public $jsOptions = [
         'position' => \yii\web\View::POS_HEAD

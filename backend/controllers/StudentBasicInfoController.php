@@ -26,7 +26,7 @@ class StudentBasicInfoController extends BaseController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'create', 'view'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -74,9 +74,30 @@ class StudentBasicInfoController extends BaseController
                     'sex_label'     => StudentBasicInfo::getSexLabels($arr['sex']),
                     'age'           => $arr['age'],
                     'id_number'     => $arr['id_number'],
+                    'created_at'    => Yii::$app->formatter->asDatetime($arr['created_at']),
                 ];
             }
         }
         $this->layuiListResponeJson('', $totalCount, $dataList);
+    }
+
+    /**
+     * 创建学生信息
+     *
+     */
+    public function actionCreate()
+    {
+        return $this->render('create');
+    }
+
+    /**
+     * 查看学生详情
+     *
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'studentBasicInfoModel' => StudentBasicInfo::findOne($id)
+        ]);
     }
 }
