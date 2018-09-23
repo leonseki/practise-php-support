@@ -1,14 +1,13 @@
 <?php
-use common\models\StudentBasicInfo;
 use yii\helpers\Url;
 ?>
-<div class="student-basic-info-search">
+<div class="admin">
     <form class="layui-form">
         <blockquote class="layui-elem-quote">
             <div class="layui-inline">
-                <label class="layui-form-label">ID:</label>
-                <div class="layui-input-inline" style="width: 90px">
-                    <input type="text" name="id" class="layui-input" placeholder="" value="<?=Yii::$app->request->get('id')?>">
+                <label class="layui-form-label">用户名:</label>
+                <div class="layui-input-inline" style="width: 150px">
+                    <input type="text" name="username" class="layui-input" placeholder="请输入搜索内容" value="<?=Yii::$app->request->get('username')?>">
                 </div>
             </div>
             <div class="layui-inline">
@@ -23,7 +22,7 @@ use yii\helpers\Url;
 <script type="text/javascript">
     function create() {
         layui.use(['layerExt'], function () {
-            layui.layerExt.open('<?=Url::toRoute(['student-basic-info/create'])?>', {width:'830px', height:'600px', title: '添加学生基本信息'});
+            layui.layerExt.open('<?=Url::toRoute(['admin/create'])?>', {width:'460px', height:'400px', title: '添加账号'});
         });
     }
 </script>
