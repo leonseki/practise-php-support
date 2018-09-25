@@ -52,7 +52,9 @@ class StudentBasicInfoSearch extends StudentBasicInfo
         }
         $query->andFilterWhere([
             StudentBasicInfo::tableName().'.id' => $this->id,
+            StudentBasicInfo::tableName().'.student_id' => $this->student_id,
         ]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
         return $dataProvider;
     }
 }

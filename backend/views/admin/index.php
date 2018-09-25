@@ -35,7 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 ,hash : 'page'
             }
             , where: {
-                'username' : getQueryString('username')
+                'username' : getQueryString('username'),
+                'id'       : getQueryString('id'),
             }
             , limit: 15
             , limits: [10, 15, 20, 25]

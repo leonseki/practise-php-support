@@ -4,7 +4,13 @@ use yii\helpers\Url;
 <div class="admin">
     <form class="layui-form">
         <blockquote class="layui-elem-quote">
-            <div class="layui-inline">
+            <div class="layui-inline" style="margin-left: -50px">
+                <label class="layui-form-label">ID:</label>
+                <div class="layui-input-inline" style="width: 120px">
+                    <input type="text" name="id" class="layui-input" placeholder="请输入ID" value="<?=Yii::$app->request->get('id')?>">
+                </div>
+            </div>
+            <div class="layui-inline" style="margin-left: -40px">
                 <label class="layui-form-label">用户名:</label>
                 <div class="layui-input-inline" style="width: 150px">
                     <input type="text" name="username" class="layui-input" placeholder="请输入搜索内容" value="<?=Yii::$app->request->get('username')?>">
