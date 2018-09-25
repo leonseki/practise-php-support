@@ -77,7 +77,7 @@ class Admin extends BaseModel implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'id'=>'自增ID',
+            'id'                    =>'自增ID',
             'username'              => '用户名',
             'auth_key'              => '自动登录key',
             'password_hash'         => '加密密码',

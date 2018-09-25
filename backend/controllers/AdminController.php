@@ -104,13 +104,44 @@ class AdminController extends BaseController
      * 添加管理员账号
      *
      * @return string
+     * @throws \yii\base\Exception
      */
     public function actionCreate()
     {
-        $adminModel = new Admin(['scenario' => Admin::SCENARIO_CREATE]);
-        return $this->render('create', [
-            'model' => $adminModel
-        ]);
+        $adminModel = new Admin(['scenario' => 'create']);
+        if ($this->request->isPost == false) {
+            return $this->render('create', [
+                'model' => $adminModel
+            ]);
+        }
+
+        $username = $this->request->post('username');
+        $password = $this->request->post('password');
+        $email    = $this->request->post('email');
+
+        if (strlen($password) < 4) {
+            $this->failResponseJson('密码长度最小长度为4位');
+        }
+
+        $adminModel->setPassword($password);
+        $adminModel->attributes = [
+            'username' => $username,
+            'email'    => $email,
+        ];
+
+        if ($adminModel->validate() == false) {
+            $this->failResponseJson(current($adminModel->getFirstErrors()));
+        }
+
+        if (false != Admin::findOne(['username' => $adminModel->username, 'status' => Admin::STATUS_ACTIVE])) {
+            $this->failResponseJson('用户名已存在,请勿重复添加');
+        }
+
+        if ($adminModel->save()) {
+            $this->successResponseJson('添加成功');
+        }else {
+            $this->failResponseJson('添加失败');
+        }
     }
 
     /**
