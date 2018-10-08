@@ -19,6 +19,15 @@ $actionName = Yii::$app->controller->id .'/'.Yii::$app->controller->action->id;
             </dl>
         </li>
     </ul>
+    <ul class="layui-nav layui-nav-tree">
+        <li class="layui-nav-item layui-nav-itemed">
+            <a class="" href="javascript:;">文章管理</a >
+            <dl class="layui-nav-child">
+                <dd class="<?=$actionName == 'article/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['article/index'])?>">文章列表</a ></dd>
+            </dl>
+        </li>
+    </ul>
+
     <?php if (Yii::$app->user->identity->getId() == 1): ?>
         <ul class="layui-nav layui-nav-tree">
             <li class="layui-nav-item layui-nav-itemed">
