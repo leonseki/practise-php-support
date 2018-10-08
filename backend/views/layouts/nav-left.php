@@ -21,9 +21,9 @@ $actionName = Yii::$app->controller->id .'/'.Yii::$app->controller->action->id;
     </ul>
     <ul class="layui-nav layui-nav-tree">
         <li class="layui-nav-item layui-nav-itemed">
-            <a class="" href="javascript:;">文章管理</a >
+            <a class="" href="javascript:;">内容管理</a >
             <dl class="layui-nav-child">
-                <dd class="<?=$actionName == 'article/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['article/index'])?>">文章列表</a ></dd>
+                <dd class="<?=$actionName == 'article/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['article/index'])?>">文章管理</a ></dd>
             </dl>
         </li>
     </ul>

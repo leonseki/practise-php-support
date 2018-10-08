@@ -7,6 +7,7 @@ use common\models\Article;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use Yii;
+use yii\web\NotFoundHttpException;
 
 /**
  * Class 文章控制器
@@ -25,7 +26,7 @@ class ArticleController extends BaseController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'update','view'],
+                        'actions' => ['index', 'create', 'update', 'view', 'update-state'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -72,8 +73,9 @@ class ArticleController extends BaseController
                 $arr = $model->attributes;
                 $dataList[] = [
                     'id'            => $arr['id'],
-                    'title'    => $arr['title'],
-                    'content'          => $arr['content'],
+                    'title'         => $arr['title'],
+                    'content'       => $arr['content'],
+                    'state'         => $arr['state'],
                     'created_at'    => Yii::$app->formatter->asDatetime($arr['created_at']),
                 ];
             }
@@ -82,7 +84,7 @@ class ArticleController extends BaseController
     }
 
     /**
-     * 创建学生信息
+     * 创建文章
      *
      */
     public function actionCreate()
@@ -91,7 +93,33 @@ class ArticleController extends BaseController
     }
 
     /**
-     * 查看学生详情
+     * 更新文章状态
+     *
+     * @param $id
+     *
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function actionUpdateState($id)
+    {
+        // 数据模型
+        $articleModel = $this->findModel($id);
+        // 加载数据
+        $articleModel->load([$articleModel->formName() => $this->request->post()]);
+        $articleModel->scenario = 'updateState';
+
+        // 启用按钮直接更新状态
+        $articleModel->state = $this->request->post()['state'];
+        if ($articleModel->save() !== false) {
+            $this->successResponseJson('修改成功', ['id' => $articleModel->id]);
+        } else {
+            $this->failResponseJson('修改失败');
+        }
+    }
+
+
+    /**
+     * 查看文章详情
      *
      */
     public function actionView($id)
@@ -99,5 +127,21 @@ class ArticleController extends BaseController
         return $this->render('view', [
             'studentBasicInfoModel' => Article::findOne($id)
         ]);
+    }
+
+    /**
+     * 获取数据模型
+     *
+     * @param $id
+     * @return Article
+     * @throws NotFoundHttpException
+     */
+    protected function findModel($id)
+    {
+        if (($model = Article::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('页面不存在或已删除');
     }
 }

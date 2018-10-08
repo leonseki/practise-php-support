@@ -26,6 +26,17 @@ class Article extends BaseModel
     }
 
     /**
+     * 设定场景
+     * {@inheritdoc}
+     */
+    public function scenarios()
+    {
+        return [
+            'updateState' => ['state', 'updated_at'],
+        ];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function rules()

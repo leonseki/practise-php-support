@@ -10,9 +10,16 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
+    'language' => 'zh-CN',
+    'timeZone' => 'Asia/Shanghai',
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
+        // 配置时间格式
+        'formatter' => [
+            'dateFormat' => 'yyyy-MM-dd',
+            'datetimeFormat' => 'yyyy-MM-dd HH:mm:ss',
+        ],
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
