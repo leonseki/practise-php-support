@@ -34,7 +34,7 @@ $actionName = Yii::$app->controller->id .'/'.Yii::$app->controller->action->id;
                 <a class="" href="javascript:;">系统管理</a >
                 <dl class="layui-nav-child">
                     <dd class="<?=$actionName == 'admin/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['admin/index'])?>">账号列表</a ></dd>
-                    <dd class="<?=$actionName == 'system-log/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['system-log/index'])?>">操作日志</a ></dd>
+                    <dd class="<?=$actionName == 'system-log/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['appkey/index'])?>">AppKey管理</a ></dd>
                     <dd class="<?=$actionName == 'tools/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['tools/index'])?>">系统工具</a ></dd>
                 </dl>
             </li>

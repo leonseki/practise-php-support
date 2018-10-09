@@ -2,19 +2,19 @@
 
 namespace backend\controllers;
 
-use backend\models\Admin;
-use backend\models\search\AdminSearch;
+use backend\models\search\AppkeySearch;
+use common\models\Appkey;
+use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use Yii;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
 /**
- * 管理员权限控制器
+ * Class AppkeyController
  * @package backend\controllers
  */
-class AdminController extends BaseController
+class AppkeyController extends BaseController
 {
     /**
      * 定义行为
@@ -27,7 +27,7 @@ class AdminController extends BaseController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'update'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -36,7 +36,7 @@ class AdminController extends BaseController
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'delete' => ['POST'],
                 ],
             ],
         ];
@@ -55,8 +55,7 @@ class AdminController extends BaseController
     }
 
     /**
-     * 账户首页列表
-     *
+     * appkey 列表
      * @return string
      * @throws \yii\base\InvalidConfigException
      */
@@ -68,8 +67,8 @@ class AdminController extends BaseController
         }
 
         // 获取数据
-        $query = Admin::find();
-        $searchModel = new AdminSearch();
+        $query = Appkey::find()->select(['app_id', 'app_key', 'app_secret', 'label', 'state', 'created_at']);
+        $searchModel = new AppkeySearch();
         $dataProvider = $searchModel->search($query, [
             $searchModel->formName() => Yii::$app->request->queryParams,
         ]);
@@ -80,100 +79,101 @@ class AdminController extends BaseController
         // 记录总数
         $totalCount = $dataProvider->getTotalCount();
 
-        // 格式化输出数据
+        // 格式化数据输出
         if ($totalCount > 0) {
             foreach ($dataProvider->models as $model) {
                 $arr = $model->attributes;
                 $dataList[] = [
-                    'id' => $arr['id'],
-                    'username'          => $arr['username'],
-                    'email'             => $arr['email'],
-                    'state'             => $arr['state'],
-                    'last_login_ip'     => $arr['last_login_ip'],
-                    'last_login_time'   => Yii::$app->formatter->asDatetime($arr['last_login_time']),
-                    'created_at'        => Yii::$app->formatter->asDatetime($arr['created_at']),
-                    'updated_at'        => Yii::$app->formatter->asDatetime($arr['updated_at']),
+                    'app_id' => $arr['app_id'],
+                    'app_key' => $arr['app_key'],
+                    'app_secret' => $arr['app_secret'],
+                    'label' => $arr['label'],
+                    'state' => $arr['state'],
+                    'created_at' => Yii::$app->formatter->asDatetime($arr['created_at']),
+
                 ];
             }
         }
-
         $this->layuiListResponeJson('', $totalCount, $dataList);
     }
 
     /**
-     * 添加管理员账号
-     *
+     * 添加Appkey
      * @return string
-     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionCreate()
     {
-        $adminModel = new Admin(['scenario' => 'create']);
-        if ($this->request->isPost == false) {
+        $model = new Appkey();
+        if ($this->isAjax === false) {
             return $this->render('create', [
-                'model' => $adminModel
+                'model' => $model,
             ]);
         }
 
-        $username = $this->request->post('username');
-        $password = $this->request->post('password');
-        $email    = $this->request->post('email');
+        $model->load([$model->formName() => $this->request->post()]);
 
-        if (strlen($password) < 4) {
-            $this->failResponseJson('密码长度最小长度为4位');
+        //生成随机码
+        $model->app_key    = md5(microtime().mt_rand(1,9999));
+        $model->app_secret = md5(microtime().mt_rand(1,9999));
+
+        $errors = [];
+        if ($model->validate() === false) {
+            $errors = $model->getFirstErrors();
         }
-
-        $adminModel->setPassword($password);
-        $adminModel->attributes = [
-            'username' => $username,
-            'email'    => $email,
-        ];
-
-        if ($adminModel->validate() == false) {
-            $this->failResponseJson(current($adminModel->getFirstErrors()));
+        if (!empty($errors)) {
+            $this->failResponseJson(implode(',', $errors));
         }
-
-        if (false != Admin::findOne(['username' => $adminModel->username, 'status' => Admin::STATUS_ACTIVE])) {
-            $this->failResponseJson('用户名已存在,请勿重复添加');
-        }
-
-        if ($adminModel->save()) {
-            $this->successResponseJson('添加成功');
-        }else {
+        if ($model->save()) {
+            $this->successResponseJson('添加成功', ['app_id' => $model->app_id]);
+        } else {
             $this->failResponseJson('添加失败');
         }
+
     }
 
     /**
-     * 修改账户资料
-     *
      * @param $id
      * @return string
      * @throws NotFoundHttpException
      */
     public function actionUpdate($id)
     {
-        $adminModel = $this->findModel($id);
-        $adminModel->scenario = Admin::SCENARIO_UPDATE;
+        $model = $this->findModel($id);
+        $postData = $this->request->post();
+        foreach ($postData as $k => $v) {
+            if (trim($v) == '') {
+                $this->failResponseJson('不允许为空');
+            } else {
+                $model[$k] = trim($v);
+            }
+        }
+        if ($model->save() !== false) {
+            $this->successResponseJson('修改成功', ['app_id' => $model->app_id]);
+        } else {
+            $this->failResponseJson('修改失败');
+        }
+    }
 
-        return $this->render('update', [
-            'model' => $adminModel,
-        ]);
+    public function actionView()
+    {
+        return $this->render('view');
     }
 
     /**
-     * 根据ID获取数据模型
+     * 获取数据模型
      *
      * @param $id
-     * @return Admin|null
+     * @return Appkey
      * @throws NotFoundHttpException
      */
     protected function findModel($id)
     {
-        if (($model = Admin::findOne($id)) !== null) {
+        if (($model = Appkey::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('页面不存在或已删除');
     }
+
 }

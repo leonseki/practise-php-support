@@ -1,19 +1,23 @@
 <?php
 use yii\helpers\Url;
+/* @var $this yii\web\View */
+/* @var $model backend\models\AppkeySearch */
+/* @var $form yii\widgets\ActiveForm */
 ?>
-<div class="article-search">
+
+<div class="appkey-search">
     <form class="layui-form">
         <blockquote class="layui-elem-quote">
             <div class="layui-inline" style="margin-left: -50px">
-                <label class="layui-form-label">ID:</label>
+                <label class="layui-form-label">标签:</label>
                 <div class="layui-input-inline" style="width: 90px" >
-                    <input type="text" name="id" class="layui-input" placeholder="搜索ID" value="<?=Yii::$app->request->get('id')?>">
+                    <input type="text" name="label" class="layui-input" placeholder="" value="<?=Yii::$app->request->get('label')?>">
                 </div>
             </div>
-            <div class="layui-inline" style="margin-left: -50px">
-                <label class="layui-form-label">标题:</label>
+            <div class="layui-inline" style="margin-left: -30px">
+                <label class="layui-form-label">appkey:</label>
                 <div class="layui-input-inline" style="width: 120px">
-                    <input type="text" name="title" class="layui-input" placeholder="搜索标题" value="<?=Yii::$app->request->get('title')?>">
+                    <input type="text" name="app_key" class="layui-input" placeholder="" value="<?=Yii::$app->request->get('app_key')?>">
                 </div>
             </div>
             <div class="layui-inline">
@@ -28,7 +32,7 @@ use yii\helpers\Url;
 <script type="text/javascript">
     function create() {
         layui.use(['layerExt'], function () {
-            layui.layerExt.open('<?=Url::toRoute(['article/create'])?>', {width:'830px', height:'600px', title: '添加文章信息'});
+            layui.layerExt.open('<?=Url::toRoute(['appkey/create'])?>', {width:'470px', height:'400px', title: '添加AppKey'});
         });
     }
 </script>

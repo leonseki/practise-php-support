@@ -32,7 +32,7 @@ class Article extends BaseModel
     public function scenarios()
     {
         return [
-            'updateState' => ['state', 'updated_at'],
+            self::SCENARIO_UPDATE_STATE => ['state', 'updated_at'],
         ];
     }
 
