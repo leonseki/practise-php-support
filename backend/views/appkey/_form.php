@@ -50,9 +50,7 @@ use common\models\Appkey;
     });
 </script>
 
-
 <div class="appkey-form">
-
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
         <legend><?=$this->title?></legend>
     </fieldset>

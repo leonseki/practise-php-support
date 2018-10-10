@@ -13,21 +13,21 @@ use yii\helpers\Url;
 
     <input type="hidden" name="<?=Yii::$app->request->csrfParam ?>" value="<?= Yii::$app->request->csrfToken ?>">
     <div class="layui-form-item">
-        <label class="layui-form-label" required>用户名：</label>
+        <label class="layui-form-label">用户名:</label>
         <div class="layui-input-inline">
             <?php if ($model->isNewRecord === true):?>
-                <input type="text" name="username" placeholder="" required  lay-verify="required" autocomplete="off" class="layui-input">
+                <input type="text" name="username" required placeholder=""   lay-verify="required" autocomplete="off" class="layui-input">
             <?php else:?>
-                <input type="text" name="username" placeholder="" required  lay-verify="required" autocomplete="off" class="layui-input" value="<?= $model->username ?>" disabled>
+                <input type="text" name="username" required placeholder=""   lay-verify="required" autocomplete="off" class="layui-input" value="<?= $model->username ?>" disabled>
             <?php endif;?>
         </div>
     </div>
 
     <div class="layui-form-item">
         <?php if ($model->isNewRecord === true):?>
-            <label class="layui-form-label" required>密码：</label>
+            <label class="layui-form-label">密码:</label>
         <?php else:?>
-            <label class="layui-form-label">密码：</label>
+            <label class="layui-form-label">密码:</label>
         <?php endif;?>
 
         <div class="layui-input-inline">
@@ -40,7 +40,7 @@ use yii\helpers\Url;
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label" required>电子邮箱：</label>
+        <label class="layui-form-label">电子邮箱:</label>
         <div class="layui-input-inline">
             <input type="text" name="email" placeholder=""  lay-verify="email"  autocomplete="off" class="layui-input" value="<?= $model->email ?>">
         </div>
@@ -64,7 +64,6 @@ use yii\helpers\Url;
 
     layui.use('form', function() {
         let form = layui.form;
-
         let reg = new RegExp("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\\.[a-zA-Z0-9]{2,6}$");
         //监听提交
         form.on('submit(adminCreate)', function(data) {

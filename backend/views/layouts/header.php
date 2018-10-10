@@ -19,6 +19,5 @@ use yii\helpers\Url;
 </div>
 <script type="text/javascript">
     function changePassword() {
-        
     }
 </script>

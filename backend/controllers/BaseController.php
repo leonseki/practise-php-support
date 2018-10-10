@@ -82,6 +82,13 @@ abstract class BaseController extends Controller
         }
     }
 
+    /**
+     * 处理弹层弹出后的页面样式问题
+     *
+     * @param $action
+     * @return bool
+     * @throws \yii\web\BadRequestHttpException
+     */
     public function beforeAction($action)
     {
         if ($action->id != 'index') {

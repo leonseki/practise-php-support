@@ -13,14 +13,6 @@ $actionName = Yii::$app->controller->id .'/'.Yii::$app->controller->action->id;
 
     <ul class="layui-nav layui-nav-tree">
         <li class="layui-nav-item layui-nav-itemed">
-            <a class="" href="javascript:;">学生信息管理</a >
-            <dl class="layui-nav-child">
-                <dd class="<?=$actionName == 'student-basic-info/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['student-basic-info/index'])?>">学生基本信息</a ></dd>
-            </dl>
-        </li>
-    </ul>
-    <ul class="layui-nav layui-nav-tree">
-        <li class="layui-nav-item layui-nav-itemed">
             <a class="" href="javascript:;">内容管理</a >
             <dl class="layui-nav-child">
                 <dd class="<?=$actionName == 'article/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['article/index'])?>">文章管理</a ></dd>
@@ -41,4 +33,3 @@ $actionName = Yii::$app->controller->id .'/'.Yii::$app->controller->action->id;
         </ul>
     <?php endif;?>
 </div>
-

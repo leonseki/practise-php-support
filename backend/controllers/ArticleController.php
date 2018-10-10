@@ -35,7 +35,7 @@ class ArticleController extends BaseController
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['POST'],
                 ],
             ],
         ];
@@ -49,7 +49,6 @@ class ArticleController extends BaseController
      */
     public function actionIndex()
     {
-
         if ($this->isAjax === false) {
             return $this->render('index');
         }
@@ -96,7 +95,6 @@ class ArticleController extends BaseController
      * 更新文章状态
      *
      * @param $id
-     *
      * @throws NotFoundHttpException
      * @throws \yii\base\InvalidConfigException
      */

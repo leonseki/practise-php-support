@@ -1,5 +1,4 @@
 <?php
-
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -10,6 +9,7 @@ use yii\helpers\Url;
 AppAsset::register($this);
 $username = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : '';
 ?>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">

@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 ?>
+
 <div class="article-search">
     <form class="layui-form">
         <blockquote class="layui-elem-quote">

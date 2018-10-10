@@ -27,7 +27,7 @@ class AppkeyController extends BaseController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'actions' => ['index', 'create', 'update'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -56,6 +56,7 @@ class AppkeyController extends BaseController
 
     /**
      * appkey 列表
+     *
      * @return string
      * @throws \yii\base\InvalidConfigException
      */
@@ -99,6 +100,7 @@ class AppkeyController extends BaseController
 
     /**
      * 添加Appkey
+     *
      * @return string
      * @throws \yii\base\InvalidConfigException
      */
@@ -133,6 +135,8 @@ class AppkeyController extends BaseController
     }
 
     /**
+     * 更新appkey
+     *
      * @param $id
      * @return string
      * @throws NotFoundHttpException
@@ -155,11 +159,6 @@ class AppkeyController extends BaseController
         }
     }
 
-    public function actionView()
-    {
-        return $this->render('view');
-    }
-
     /**
      * 获取数据模型
      *
@@ -175,5 +174,4 @@ class AppkeyController extends BaseController
 
         throw new NotFoundHttpException('页面不存在或已删除');
     }
-
 }

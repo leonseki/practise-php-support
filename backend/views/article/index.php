@@ -1,5 +1,4 @@
 <?php
-
 use yii\helpers\Url;
 $this->title = '文章基本信息';
 $this->params['breadcrumbs'][] = $this->title;
@@ -17,7 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 </script>
 
 <script type="text/javascript">
-
     baseConfig = $.extend(baseConfig, {
         urlArticleList: '<?= Url::toRoute(['article/index', 'is_ajax' => 1]) ?>',
         urlCreate: '<?=Url::toRoute(['article/create'])?>',

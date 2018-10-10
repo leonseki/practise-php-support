@@ -71,7 +71,5 @@ $this->params['breadcrumbs'][] = $this->title;
                layer.msg(jsondata.msg);
            });
         });
-
-
     });
 </script>
