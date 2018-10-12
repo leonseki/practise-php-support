@@ -3,13 +3,13 @@
 namespace api\component\auth;
 
 use api\component\exception\InputInvalidApiException;
-use http\Exception\InvalidArgumentException;
+use common\models\Appkey;
 use yii\base\ActionFilter;
 use Yii;
 class SignAuth extends ActionFilter
 {
     /**
-     * appkey参数名定义
+     * appKey参数名定义
      * @var string
      */
     protected $appKeyParam = 'appkey';
@@ -41,7 +41,8 @@ class SignAuth extends ActionFilter
 
     /**
      * @param \yii\base\Action $action
-     * @return bool
+     * @return bool|void
+     * @throws InputInvalidApiException
      */
     public function beforeAction($action)
     {
@@ -76,8 +77,76 @@ class SignAuth extends ActionFilter
             }
         }
 
-        // 定义跳过缓存常亮
+        // 定义跳过缓存常量
         define('DEBUG_SKIP_CACHE', $debugSkipCache);
+
+        // 检查AppKey的有效性
+        $appKeyModel = Appkey::findOne(['app_key' => $appKey, 'status' => Appkey::STATUS_ACTIVE]);
+        if (empty($appKeyModel)) {
+            throw new InputInvalidApiException('AppKey is invalid');
+        } else if ($appKeyModel->state != Appkey::STATE_ENABLE) {
+            throw new InputInvalidApiException('AppKey is not enable');
+        }
+
+        // 请求参数合并
+        $args = $this->getIsPostRequest() ? $args = Yii::$app->request->post() : Yii::$app->request->get();
+        $args = array_merge($args, [
+            $this->appKeyParam      => $appKey,
+            $this->timestampParam   => $timestamp,
+            $this->signParam        => $sign
+        ]);
+
+        // 验证签名
+        if ($this->verifySign($args, $appKeyModel->app_secret, $sign) === false) {
+            throw new InputInvalidApiException('Signature verification failed');
+        }
+
+        return parent::beforeAction($action);
     }
 
+    /**
+     * 判断当前请求是否是一个POST请求
+     * @return bool
+     */
+    protected function getIsPostRequest()
+    {
+        return isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'], 'POST');
+    }
+
+    /**
+     * 创建签名
+     *
+     * @param $args
+     * @param $appSecret
+     * @return string
+     */
+    protected function createSign($args, $appSecret)
+    {
+        if (isset($args[$this->signParam])) {
+            unset($args[$this->signParam]);
+        }
+
+        ksort($args);
+        $requestString = '';
+        foreach ($args as $k => $v) {
+            $requestString .= $k . '=' . $v . ':';
+        }
+        $requestString = substr($requestString, 0, -1);
+        $newSign = md5(md5(strtolower($requestString)).$appSecret);
+        return $newSign;
+    }
+
+    protected function verifySign($args, $appSecret, $sign)
+    {
+        // 开启debug模式不验签
+        if ($this->apiDebugOpen === true) {
+            return true;
+        }
+
+        if ($this->createSign($args, $appSecret) === $sign) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
