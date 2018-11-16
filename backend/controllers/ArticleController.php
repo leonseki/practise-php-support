@@ -2,12 +2,12 @@
 
 namespace backend\controllers;
 
-use backend\models\search\ArticleSearch;
-use common\models\Article;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use Yii;
+use common\models\Article;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
+use backend\models\search\ArticleSearch;
 
 /**
  * Class 文章控制器
@@ -79,7 +79,7 @@ class ArticleController extends BaseController
                 ];
             }
         }
-        $this->layuiListResponeJson('', $totalCount, $dataList);
+        $this->layuiListResponseJson('', $totalCount, $dataList);
     }
 
     /**
@@ -119,6 +119,8 @@ class ArticleController extends BaseController
     /**
      * 查看文章详情
      *
+     * @param $id
+     * @return string
      */
     public function actionView($id)
     {

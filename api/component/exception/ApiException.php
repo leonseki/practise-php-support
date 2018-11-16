@@ -2,7 +2,6 @@
 
 namespace api\component\exception;
 
-use Throwable;
 use yii\base\UserException;
 
 /**

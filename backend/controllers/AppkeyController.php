@@ -95,7 +95,7 @@ class AppkeyController extends BaseController
                 ];
             }
         }
-        $this->layuiListResponeJson('', $totalCount, $dataList);
+        $this->layuiListResponseJson('', $totalCount, $dataList);
     }
 
     /**

@@ -136,7 +136,7 @@ abstract class BaseController extends Controller
         $this->responseJson(self::CODE_FAIL, $msg, $data, $errorInfo);
     }
 
-    public function layuiListResponeJson($msg = '', $count = 0, $data = [])
+    public function layuiListResponseJson($msg = '', $count = 0, $data = [])
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         Yii::$app->response->content = json_encode([

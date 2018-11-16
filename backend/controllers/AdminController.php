@@ -2,13 +2,13 @@
 
 namespace backend\controllers;
 
-use backend\models\Admin;
-use backend\models\search\AdminSearch;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use Yii;
-use yii\web\ForbiddenHttpException;
+use backend\models\Admin;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
+use backend\models\search\AdminSearch;
 
 /**
  * 管理员权限控制器
@@ -97,7 +97,7 @@ class AdminController extends BaseController
             }
         }
 
-        $this->layuiListResponeJson('', $totalCount, $dataList);
+        $this->layuiListResponseJson('', $totalCount, $dataList);
     }
 
     /**
@@ -139,7 +139,7 @@ class AdminController extends BaseController
 
         if ($adminModel->save()) {
             $this->successResponseJson('添加成功');
-        }else {
+        } else {
             $this->failResponseJson('添加失败');
         }
     }
