@@ -1,4 +1,5 @@
 <?php
 return [
-    'adminEmail' => 'admin@example.com',
+    'adminEmail' => '17639356@qq.com',
+    'batchGetLimit' => 50
 ];

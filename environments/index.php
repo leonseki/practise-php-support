@@ -52,12 +52,12 @@ return [
     'Production' => [
         'path' => 'prod',
         'setWritable' => [
+            'api/runtime',
+            'api/web/assets',
             'backend/runtime',
             'backend/web/assets',
             'frontend/runtime',
             'frontend/web/assets',
-            'api/runtime',
-            'api/web/assets',
         ],
         'setExecutable' => [
             'yii',

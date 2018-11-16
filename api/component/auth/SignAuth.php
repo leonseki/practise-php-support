@@ -2,10 +2,15 @@
 
 namespace api\component\auth;
 
-use api\component\exception\InputInvalidApiException;
+use Yii;
 use common\models\Appkey;
 use yii\base\ActionFilter;
-use Yii;
+use api\component\exception\InputInvalidApiException;
+
+/**
+ * 签名认证
+ * @package api\component\auth
+ */
 class SignAuth extends ActionFilter
 {
     /**
@@ -40,8 +45,10 @@ class SignAuth extends ActionFilter
 
 
     /**
+     * 动作执行之前
+     *
      * @param \yii\base\Action $action
-     * @return bool|void
+     * @return bool
      * @throws InputInvalidApiException
      */
     public function beforeAction($action)
@@ -100,6 +107,7 @@ class SignAuth extends ActionFilter
         if ($this->verifySign($args, $appKeyModel->app_secret, $sign) === false) {
             throw new InputInvalidApiException('Signature verification failed');
         }
+
 
         return parent::beforeAction($action);
     }
