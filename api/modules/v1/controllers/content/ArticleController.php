@@ -1,6 +1,6 @@
 <?php
 
-namespace api\modules\v1\controllers\article;
+namespace api\modules\v1\controllers\content;
 
 use api\controllers\BaseController;
 
