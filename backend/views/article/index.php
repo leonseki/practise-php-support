@@ -56,7 +56,6 @@ $this->params['breadcrumbs'][] = $this->title;
         form.on('switch(articleState)',function (obj) {
             let _this = this;
             let isCheck = obj.elem.checked;
-            console.log(obj.value);
             $(_this).prop('checked', isCheck==true?false:true);
             form.render();
             layer.confirm('确认要'+(isCheck==true?'启用':'禁用')+'吗?', {icon: 3, title: '提示'}, function (index) {

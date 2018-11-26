@@ -22,7 +22,6 @@ use yii\helpers\Url;
     baseConfig = $.extend(baseConfig,{
         requestUrl:'<?= Url::toRoute(['tools/encrypt-test'])?>'
     });
-
     layui.use('form', function() {
         let form = layui.form;
 

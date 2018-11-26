@@ -1,10 +1,10 @@
 <?php
 
 use yii\helpers\Url;
-use common\models\Appkey;
+use common\models\Encryption;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Appkey */
+/* @var $model common\models\Encryption */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -16,17 +16,24 @@ use common\models\Appkey;
     .layui-form-mid {font-size: 10px;}
 </style>
 
-<div class="appkey-form">
+<div class="encryption-form">
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
         <legend><?=$this->title?></legend>
     </fieldset>
 
-    <form class="layui-form" lay-filter="appkeyForm" method="post">
+    <form class="layui-form" lay-filter="encryptionForm" method="post">
         <input type="hidden" name="<?=\Yii::$app->request->csrfParam ?>" value="<?= Yii::$app->request->csrfToken ?>">
         <div class="layui-form-item">
-            <label class="layui-form-label" required>标签：</label>
+            <label class="layui-form-label" required>明文：</label>
             <div class="layui-input-inline" style="width: 250px;">
-                <input type="text" name="label" id="label" value="<?= $model->label ?>" placeholder="请输入" required  lay-verify="required" autocomplete="off" class="layui-input">
+                <input type="text" name="plain_text" placeholder="请输入" required  lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" required>明文确定：</label>
+            <div class="layui-input-inline" style="width: 250px;">
+                <input type="text" name="plain_text_repeat" placeholder="请输入" required  lay-verify="required" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -49,30 +56,23 @@ use common\models\Appkey;
 
 <script type="text/javascript">
     baseConfig = $.extend(baseConfig,{
-        urlAppkeyIndex:'<?= Url::toRoute(['appkey/index'])?>'
-        ,urlAppkeyCreate:'<?= Url::toRoute(['appkey/create', 'is_ajax' => 1])?>'
-        ,urlAppkeyUpdate:'<?= Url::toRoute(['appkey/update', 'id' =>$model->app_id, 'is_ajax' => 1])?>'
-        ,postType:'<?= $model->isNewRecord ? 'create' : 'update';?>'
+        urlEncryptionIndex:'<?= Url::toRoute(['encryption/index'])?>'
+        ,urlEncryptionCreate:'<?= Url::toRoute(['encryption/create', 'is_ajax' => 1])?>'
     });
     layui.use(['layer', 'form'], function(){
         let form = layui.form;
         let layer= layui.layer;
 
         //监听提交
-        form.on('submit(formAppkey)', function(data){
-            let url = baseConfig.postType == 'create' ? baseConfig.urlAppkeyCreate : baseConfig.urlAppkeyUpdate;
+        form.on('submit(formEncryption)', function(data){
+            let url = baseConfig.urlEncryptionCreate;
             $.post(url, data.field, function(jsondata) {
                 if (jsondata.code == 1) {
                     let index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                     parent.layer.close(index); //再执行关闭
-
                     // 新记录跳转到appkey首页，更新记录则重载表格数据
-                    if (baseConfig.postType == 'create') {
-                        parent.location.href = baseConfig.urlAppkeyIndex;
-                    }else {
-                        parent.location.reload();
-                    }
-                }else {
+                    parent.location.href = baseConfig.urlAppkeyIndex;
+                } else {
                     layer.alert(jsondata.msg);
                 }
             });

@@ -26,9 +26,9 @@ $actionName = Yii::$app->controller->id .'/'.Yii::$app->controller->action->id;
                 <a class="" href="javascript:;">系统管理</a >
                 <dl class="layui-nav-child">
                     <dd class="<?=$actionName == 'admin/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['admin/index'])?>">账号列表</a ></dd>
+                    <dd class="<?=$actionName == 'encryption/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['encryption/index'])?>">密码配置</a ></dd>
                     <dd class="<?=$actionName == 'system-log/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['appkey/index'])?>">AppKey管理</a ></dd>
                     <dd class="<?=$actionName == 'tools/index-dk' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['tools/index', 'type' => 'dk'])?>">系统工具</a ></dd>
-                    <dd class="<?=$actionName == 'encryption/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['encryption/index'])?>">加解密工具</a ></dd>
                 </dl>
             </li>
         </ul>
