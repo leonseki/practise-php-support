@@ -4,16 +4,9 @@ use yii\helpers\Url;
 
 <form class="layui-form" method="post">
     <div class="layui-form-item">
-        <label class="layui-form-label">AppKey:</label>
+        <label class="layui-form-label">密文:</label>
         <div class="layui-input-inline">
-            <input type="text" name="app_key" placeholder="" required  lay-verify="required" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">TimeStamp:</label>
-        <div class="layui-input-inline">
-            <input type="text" name="timestamp" placeholder="" required  lay-verify="required" autocomplete="off" class="layui-input">
+            <input type="text" name="cryptograph" placeholder="" required  lay-verify="required" autocomplete="off" class="layui-input">
         </div>
     </div>
 
@@ -27,7 +20,7 @@ use yii\helpers\Url;
 
 <script type="text/javascript">
     baseConfig = $.extend(baseConfig,{
-        requestUrl:'<?= Url::toRoute(['tools/debug-key'])?>'
+        requestUrl:'<?= Url::toRoute(['tools/decrypt-test'])?>'
     });
 
     layui.use('form', function() {
@@ -37,7 +30,7 @@ use yii\helpers\Url;
         form.on('submit(submitButton)', function(data) {
             $.post(baseConfig.requestUrl, data.field, function(jsondata) {
                 if (jsondata.code == 1) {
-                    layer.alert("<b>DebugKey:</b> <br/>" + jsondata.data.debug_key)
+                    layer.alert("<b>明文:</b> <br/>" + jsondata.data.plain_text)
                 }else {
                     layer.alert(jsondata.msg);
                     return true;

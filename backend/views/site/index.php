@@ -1,2 +1,2 @@
 <?php
-echo '首页暂无';
+// print phpinfo();

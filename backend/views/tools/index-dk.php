@@ -5,9 +5,9 @@ $this->title = "系统工具";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <blockquote class="layui-elem-quote">
-    工具箱描述
+    系统调试工具
 </blockquote>
-<div class="layui-tab">
+<div class="layui-tab layui-tab-brief">
     <ul class="layui-tab-title">
         <li class="layui-this">DebugKey</li>
     </ul>

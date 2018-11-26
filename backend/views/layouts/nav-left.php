@@ -27,9 +27,23 @@ $actionName = Yii::$app->controller->id .'/'.Yii::$app->controller->action->id;
                 <dl class="layui-nav-child">
                     <dd class="<?=$actionName == 'admin/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['admin/index'])?>">账号列表</a ></dd>
                     <dd class="<?=$actionName == 'system-log/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['appkey/index'])?>">AppKey管理</a ></dd>
-                    <dd class="<?=$actionName == 'tools/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['tools/index'])?>">系统工具</a ></dd>
+                    <dd class="<?=$actionName == 'tools/index-dk' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['tools/index', 'type' => 'dk'])?>">系统工具</a ></dd>
+                    <dd class="<?=$actionName == 'encryption/index' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['encryption/index'])?>">加解密工具</a ></dd>
                 </dl>
             </li>
         </ul>
     <?php endif;?>
+
+    <?php if (Yii::$app->user->identity->getId() == 1): ?>
+        <ul class="layui-nav layui-nav-tree">
+            <li class="layui-nav-item layui-nav-itemed">
+                <a class="" href="javascript:;">小工具</a >
+                <dl class="layui-nav-child">
+                    <dd class="<?=$actionName == 'tools/index-en' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['tools/index', 'type' => 'en'])?>">加密测试</a ></dd>
+                    <dd class="<?=$actionName == 'tools/index-de' ? 'layui-this' : '';?>"><a href="<?=Url::toRoute(['tools/index', 'type' => 'de'])?>">解密测试</a ></dd>
+                </dl>
+            </li>
+        </ul>
+    <?php endif;?>
+
 </div>
