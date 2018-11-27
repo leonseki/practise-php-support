@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\search\EncryptionSearch;
 use common\models\Encryption;
 use Yii;
+use yii\base\ErrorException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\ForbiddenHttpException;
@@ -14,7 +15,7 @@ use yii\web\ForbiddenHttpException;
  *
  * @package backend\controllers
  */
-class EncryptionController extends BaseController
+class EncryptionController extends BaseEncryption
 {
 
     /**
@@ -85,10 +86,11 @@ class EncryptionController extends BaseController
             foreach ($dataProvider->models as $model) {
                 $arr = $model->attributes;
                 $dataList[] = [
-                    'id'            => $arr['id'],
+                    'id'                    => $arr['id'],
+                    'name'                  => $arr['name'],
                     'password_hash'         => $arr['password_hash'],
-                    'state'         => $arr['state'],
-                    'created_at'    => Yii::$app->formatter->asDatetime($arr['created_at']),
+                    'state'                 => $arr['state'],
+                    'created_at'            => Yii::$app->formatter->asDatetime($arr['created_at']),
                 ];
             }
         }
@@ -99,6 +101,7 @@ class EncryptionController extends BaseController
      * 添加密码
      *
      * @return string
+     * @throws ErrorException
      * @throws \yii\base\InvalidConfigException
      */
     public function actionCreate()
@@ -110,7 +113,37 @@ class EncryptionController extends BaseController
             ]);
         }
 
+        // 接收参数
+        $plain_text = $this->request->post('plain_text');
+        $name = $this->request->post('name');
 
+        // 校验
+        if (empty($plain_text) || empty($name)) {
+            throw new ErrorException('明文不能为空');
+        }
+        $encryption = $this->encrypt($plain_text);
+
+        // 设置对象信息
+        $model->name = $name;
+        $model->password_hash = $encryption;
+        $model->operator_id = Yii::$app->user->identity->getId();
+        $model->last_decryption_time = Yii::$app->formatter->asDatetime(time());
+        $model->last_decryption_person_id = Yii::$app->user->identity->getId();
+        $model->decrypted_times = 0;
+
+        // 错误信息提示
+        $errors = [];
+        if ($model->validate() === false) {
+            $errors = $model->getFirstErrors();
+        }
+        if (!empty($errors)) {
+            $this->failResponseJson(implode(',', $errors));
+        }
+        if ($model->save()) {
+            $this->successResponseJson('添加成功');
+        } else {
+            $this->failResponseJson('添加失败');
+        }
     }
 
 }

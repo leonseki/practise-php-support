@@ -10,9 +10,9 @@ use Yii;
  * @property int $id 自增ID
  * @property string $name 名称
  * @property string $password_hash 加密密码
- * @property string $operator 创建者
- * @property int $last_decryption_time 上一次解密时间
- * @property string $last_decryption_person 上一次解密人员
+ * @property int $operator_id 创建者ID
+ * @property string $last_decryption_time 上一次解密时间
+ * @property int $last_decryption_person_id 上一次解密人员ID
  * @property int $decrypted_times 总解密次数
  * @property int $category 类别
  * @property int $state 启用状态(1=启用,0=禁用)
@@ -41,10 +41,9 @@ class Encryption extends BaseModel
     public function rules()
     {
         return [
-            [['last_decryption_time', 'decrypted_times', 'category', 'state', 'created_at', 'updated_at'], 'integer'],
+            [['decrypted_times', 'category', 'state', 'created_at', 'updated_at', 'operator_id', 'last_decryption_person_id'], 'integer'],
             [['decrypted_times'], 'required'],
-            [['password_hash'], 'string', 'max' => 255],
-            [['operator', 'last_decryption_person'], 'string', 'max' => 25],
+            [['last_decryption_time', 'password_hash'], 'string', 'max' => 255],
             [['name'], 'string', 'max' => 64],
         ];
     }
@@ -57,10 +56,10 @@ class Encryption extends BaseModel
         return [
             'id'                        => '自增ID',
             'password_hash'             => '加密密码',
-            'operator'                  => '创建者',
+            'operator_id'               => '创建者',
             'name'                      => '密码业务名称',
             'last_decryption_time'      => '上一次解密时间',
-            'last_decryption_person'    => '上一次解密人员',
+            'last_decryption_person_id' => '上一次解密人员',
             'decrypted_times'           => '总解密次数',
             'category'                  => '类别',
             'state'                     => '启用状态',

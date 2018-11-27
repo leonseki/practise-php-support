@@ -24,16 +24,22 @@ use common\models\Encryption;
     <form class="layui-form" lay-filter="encryptionForm" method="post">
         <input type="hidden" name="<?=\Yii::$app->request->csrfParam ?>" value="<?= Yii::$app->request->csrfToken ?>">
         <div class="layui-form-item">
+            <label class="layui-form-label" required>密码名称：</label>
+            <div class="layui-input-inline" style="width: 250px;">
+                <input type="text" name="name" placeholder="请输入" required  lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label" required>明文：</label>
             <div class="layui-input-inline" style="width: 250px;">
-                <input type="text" name="plain_text" placeholder="请输入" required  lay-verify="required" autocomplete="off" class="layui-input">
+                <input type="text" name="plain_text" id="plain_text" placeholder="请输入" required  lay-verify="required" autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label" required>明文确定：</label>
             <div class="layui-input-inline" style="width: 250px;">
-                <input type="text" name="plain_text_repeat" placeholder="请输入" required  lay-verify="required" autocomplete="off" class="layui-input">
+                <input type="password" name="plain_text_repeat" id="plain_text_repeat" placeholder="请输入" required  lay-verify="required" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -47,7 +53,7 @@ use common\models\Encryption;
 
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="formAppkey">提交</button>
+                <button class="layui-btn" lay-submit lay-filter="formEncryption">提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
@@ -66,16 +72,20 @@ use common\models\Encryption;
         //监听提交
         form.on('submit(formEncryption)', function(data){
             let url = baseConfig.urlEncryptionCreate;
-            $.post(url, data.field, function(jsondata) {
-                if (jsondata.code == 1) {
-                    let index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                    parent.layer.close(index); //再执行关闭
-                    // 新记录跳转到appkey首页，更新记录则重载表格数据
-                    parent.location.href = baseConfig.urlAppkeyIndex;
-                } else {
-                    layer.alert(jsondata.msg);
-                }
-            });
+            if ($('#plain_text').val().trim() !== $('#plain_text_repeat').val().trim()) {
+                layer.alert('两次密码输入不一致')
+            } else {
+                $.post(url, data.field, function(jsondata) {
+                    if (jsondata.code == 1) {
+                        let index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                        // 新记录跳转到首页，更新记录则重载表格数据
+                        parent.location.href = baseConfig.urlEncryptionIndex;
+                    } else {
+                        layer.alert(jsondata.msg);
+                    }
+                });
+            }
             return false;
         });
     });

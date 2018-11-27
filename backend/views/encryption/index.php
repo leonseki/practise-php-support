@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <script type="text/html" id="datalist-bar">
     <a class="layui-btn layui-btn-xs" lay-event="view">查看详情</a>
+    <a class="layui-btn layui-btn-xs" lay-event="decryption">解密</a>
 </script>
 
 <script type="text/javascript">
@@ -42,10 +43,10 @@ $this->params['breadcrumbs'][] = $this->title;
             , limits: [10, 15, 20, 25]
             , cols: [[
                 {type: 'checkbox'}
-                ,{field: 'id',         title: 'ID'}
-                ,{field: 'password_hash',      title: '密文'}
-                ,{field: 'state',      title: '是否启用', templet: '#encryptionSwitchTpl'}
-                ,{field: 'created_at', title: '创建时间'}
+                ,{field: 'name',         title: '名称'}
+                ,{field: 'password_hash',      title: '密文', width: 256}
+                ,{field: 'state',      title: '是否启用', templet: '#encryptionSwitchTpl', width: 120}
+                ,{field: 'created_at', title: '创建时间', width: 200}
                 ,{fixed: 'right',      title: '操作', width:150, align:'center', toolbar: '#datalist-bar'}
             ]]
         });
