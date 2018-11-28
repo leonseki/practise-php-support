@@ -11,7 +11,7 @@ use yii\web\ForbiddenHttpException;
  * 系统工具
  * @package backend\controllers
  */
-class ToolsController extends BaseEncryption
+class ToolsController extends BaseEncryptionController
 {
     /**
      * 定义行为

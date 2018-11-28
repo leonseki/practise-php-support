@@ -15,7 +15,7 @@ use yii\web\ForbiddenHttpException;
  *
  * @package backend\controllers
  */
-class EncryptionController extends BaseEncryption
+class EncryptionController extends BaseEncryptionController
 {
 
     /**
@@ -90,6 +90,7 @@ class EncryptionController extends BaseEncryption
                     'name'                  => $arr['name'],
                     'password_hash'         => $arr['password_hash'],
                     'state'                 => $arr['state'],
+                    'category_label'        => Encryption::getCategoryLabels($arr['category']),
                     'created_at'            => Yii::$app->formatter->asDatetime($arr['created_at']),
                 ];
             }

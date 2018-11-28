@@ -23,10 +23,23 @@ use Yii;
 class Encryption extends BaseModel
 {
     /**
+     * 分类
+     * @var integer
+     */
+    const SOCIAL_ACCOUNT = 1;    // 社交账号类
+    const BANK_ACCOUNT  = 2;    // 银行账号类
+
+    /**
      * 密钥
      * @var string
      */
-    const KEY = 'TYRELL_SH';
+    const KEY = 'Trell--Shanghai.';
+
+    /**
+     * seeds
+     * @var string
+     */
+    const SEEDS = '0123456789abcdefghijklmnopqrstuvwxyz';
     /**
      * {@inheritdoc}
      */
@@ -67,4 +80,19 @@ class Encryption extends BaseModel
             'updated_at'                => '更新时间',
         ];
     }
+
+    /**
+     * 获取[类别]标签集
+     * @param null $key
+     * @return string
+     */
+    public static function getCategoryLabels($key = null)
+    {
+        $array = [
+            self::SOCIAL_ACCOUNT  => '社交账号类',
+            self::BANK_ACCOUNT   => '银行账号类',
+        ];
+        return self::getLabels($array, $key);
+    }
+
 }
