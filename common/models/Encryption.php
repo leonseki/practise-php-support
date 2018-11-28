@@ -26,8 +26,9 @@ class Encryption extends BaseModel
      * 分类
      * @var integer
      */
-    const SOCIAL_ACCOUNT = 1;    // 社交账号类
-    const BANK_ACCOUNT  = 2;    // 银行账号类
+    const SOCIAL_ACCOUNT    = 1;    // 社交账号类
+    const BANK_ACCOUNT      = 2;    // 银行账号类
+    const SERVICE           = 3;    // 服务密码类
 
     /**
      * 密钥
@@ -90,7 +91,8 @@ class Encryption extends BaseModel
     {
         $array = [
             self::SOCIAL_ACCOUNT  => '社交账号类',
-            self::BANK_ACCOUNT   => '银行账号类',
+            self::BANK_ACCOUNT    => '银行账号类',
+            self::SERVICE         => '服务密码类',
         ];
         return self::getLabels($array, $key);
     }

@@ -117,6 +117,7 @@ class EncryptionController extends BaseEncryptionController
         // 接收参数
         $plain_text = $this->request->post('plain_text');
         $name = $this->request->post('name');
+        $category = $this->request->post('category');
 
         // 校验
         if (empty($plain_text) || empty($name)) {
@@ -126,6 +127,7 @@ class EncryptionController extends BaseEncryptionController
 
         // 设置对象信息
         $model->name = $name;
+        $model->category = $category;
         $model->password_hash = $encryption;
         $model->operator_id = Yii::$app->user->identity->getId();
         $model->last_decryption_time = Yii::$app->formatter->asDatetime(time());

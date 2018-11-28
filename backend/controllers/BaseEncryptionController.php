@@ -16,7 +16,7 @@ abstract class BaseEncryptionController extends BaseController
     {
         $length = mb_strlen(Encryption::KEY, '8bit');
         $iv = substr(str_shuffle(str_repeat(Encryption::SEEDS, $length)), 0, $length);
-        $value = openssl_encrypt(serialize($text), 'AES-128-CBC', EncryptionR::KEY, 0, $iv);
+        $value = openssl_encrypt(serialize($text), 'AES-128-CBC', Encryption::KEY, 0, $iv);
         if ($value === false) {
             return false;
         }

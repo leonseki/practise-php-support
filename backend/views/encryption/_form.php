@@ -30,6 +30,17 @@ use common\models\Encryption;
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label" required>密码名称：</label>
+            <div class="layui-input-inline" style="width: 250px;">
+                <select name="category">
+                    <option value="">--请选择--</option>
+                    <?php foreach (Encryption::getCategoryLabels() as $key => $value):?>
+                        <option value="<?=$key?>"><?=$value?></option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label" required>明文：</label>
             <div class="layui-input-inline" style="width: 250px;">
                 <input type="text" name="plain_text" id="plain_text" placeholder="请输入" required  lay-verify="required" autocomplete="off" class="layui-input">
